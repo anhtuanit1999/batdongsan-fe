@@ -9,14 +9,19 @@
 #                                  |_|            |___/                                 |___/                                     #                                                                                                                                 #
 ################################################################################################################################## */
 
-
 import React from "react";
 import ReactDOM from "react-dom";
 import MainWebsite from "./Main";
+import "antd/dist/antd.css";
+import { Provider } from "react-redux";
+import store from "./store";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
       <MainWebsite />
-  </React.StrictMode>,
+    </React.StrictMode>
+    ,
+  </Provider>,
   document.getElementById("TinTucBatDongSan")
 );

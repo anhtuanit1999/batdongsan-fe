@@ -1,0 +1,3 @@
+export const POST_NEW_REQUEST = "POST_NEW_REQUEST";
+export const POST_NEW_SUCCESS = "POST_NEW_SUCCESS";
+export const POST_NEW_FAIL = "POST_NEW_FAIL";
