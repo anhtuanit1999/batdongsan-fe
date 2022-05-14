@@ -55,15 +55,23 @@ function New_Topic() {
   const [address, setAddress] = useState("");
   //Type
   const [type, setType] = useState("");
-  const [direction, setDirection] = useState("");
-  const [legalDocuments, setLegalDocuments] = useState("");
+  const [directionHouse, setDirection] = useState("");
+  const [legal, setLegalDocuments] = useState("");
 
   //Input data
   const [productForm, setProductForm] = useState({
-    name: "",
+    title: "",
     description: "",
     price: "",
-    acreage: "",
+    area: "",
+    typeId: 1,
+    contactName: "",
+    telName: "",
+    addressName: "",
+    emailName: "",
+    expectDate: 1,
+    numDate: 1,
+    user: 1,
   });
 
   const [utilities, setUtilities] = useState([]);
@@ -136,20 +144,8 @@ function New_Topic() {
   //send
   const handleCreate = (e) => {
     e.preventDefault();
-    console.log(productForm, "test1");
-    console.log(legalDocuments, "legal");
-    console.log(type, "type");
-    console.log(direction, "direction");
     dispatch(
-      postNew(
-        productForm,
-        type,
-        legalDocuments,
-        direction,
-        city,
-        district,
-        ward
-      )
+      postNew(productForm, legal, directionHouse, city, district, ward, address)
     );
   };
   //reset form
@@ -183,14 +179,66 @@ function New_Topic() {
       <form className="container">
         <div className="form-groups sm-12">
           <label>
-            <h4>Name:</h4>
+            <h4>title:</h4>
           </label>
           <input
             type="text"
             className="form-control"
-            name="name"
+            name="title"
             placeholder="Enter name here"
-            value={productForm.name}
+            value={productForm.title}
+            onChange={handleChangedInput}
+          />
+        </div>
+        <div className="form-groups sm-12">
+          <label>
+            <h4> contactName:</h4>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="contactName"
+            placeholder="Enter name here"
+            value={productForm.contactName}
+            onChange={handleChangedInput}
+          />
+        </div>
+        <div className="form-groups sm-12">
+          <label>
+            <h4>telName:</h4>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="telName"
+            placeholder="Enter name here"
+            value={productForm.telName}
+            onChange={handleChangedInput}
+          />
+        </div>
+        <div className="form-groups sm-12">
+          <label>
+            <h4>addressName:</h4>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="addressName"
+            placeholder="Enter name here"
+            value={productForm.addressName}
+            onChange={handleChangedInput}
+          />
+        </div>
+        <div className="form-groups sm-12">
+          <label>
+            <h4>emailName:</h4>
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="emailName"
+            placeholder="Enter name here"
+            value={productForm.emailName}
             onChange={handleChangedInput}
           />
         </div>
@@ -331,9 +379,9 @@ function New_Topic() {
           <input
             type="text"
             className="form-control"
-            name="acreage"
+            name="area"
             placeholder="Diện tích"
-            value={productForm.acreage}
+            value={productForm.area}
             onChange={handleChangedInput}
           />
         </div>
