@@ -1,3 +1,9 @@
 export const POST_NEW_REQUEST = "POST_NEW_REQUEST";
 export const POST_NEW_SUCCESS = "POST_NEW_SUCCESS";
 export const POST_NEW_FAIL = "POST_NEW_FAIL";
+
+export const POST_LIST_REQUEST = "POST_LIST_REQUEST";
+export const POST_LIST_SUCCESS = "POST_LIST_SUCCESS";
+export const POST_LIST_FAIL = "POST_LIST_FAIL";
+
+

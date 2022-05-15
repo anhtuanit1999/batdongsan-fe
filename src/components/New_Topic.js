@@ -16,15 +16,17 @@ import {
   message,
   Space,
 } from "antd";
-import { useDispatch } from "react-redux";
-import { postNew } from "../actions/postActions";
+import { useDispatch, useSelector } from "react-redux";
+import { listNews, postNew } from "../actions/postActions";
 import api from "../api";
 const { Option } = Select;
 const { Dragger } = Upload;
 
 function New_Topic() {
   const dispatch = useDispatch();
-
+  // const listNews = useSelector((state) => state.listNews);
+  // const { products } = listNews;
+  // console.log(products, "test list")
   //img
   const props = {
     name: "file",
@@ -57,6 +59,8 @@ function New_Topic() {
   const [type, setType] = useState("");
   const [directionHouse, setDirection] = useState("");
   const [legal, setLegalDocuments] = useState("");
+  const [images, setImages] = useState([]);
+  const [formData, setFormData] = useState(new FormData());
 
   //Input data
   const [productForm, setProductForm] = useState({
@@ -71,7 +75,7 @@ function New_Topic() {
     emailName: "",
     expectDate: 1,
     numDate: 1,
-    user: 1,
+    // user: 1,
   });
 
   const [utilities, setUtilities] = useState([]);
@@ -141,12 +145,18 @@ function New_Topic() {
     GetCitys();
   }, []);
 
+  // useEffect(() => {
+  //   dispatch(listNews())
+  // }, [dispatch]);
+
+
   //send
   const handleCreate = (e) => {
     e.preventDefault();
     dispatch(
-      postNew(productForm, legal, directionHouse, city, district, ward, address)
+      postNew(productForm, legal, directionHouse, city, district, ward, address, images)
     );
+
   };
   //reset form
   const resetForm = () => {
@@ -161,10 +171,25 @@ function New_Topic() {
     setWard("");
   };
   const handleImg = (e) => {
+    const formData = new FormData();
+    Array.from({ length: e.target.files.length }).map((_, i) => {
+      formData.append('files', e.target.files[i])
+    })
+    setFormData(formData);
+  };
+  useEffect(() => {
     axios
-      .post(`/${api}/firebase/uploadmulti`)
+      .post(`${api}/firebase/uploadmulti`, formData, {
+        headers: {
+          'authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      })
       .then((data) => {
-        console.log(data);
+        console.log(productForm, legal, directionHouse, city, district, ward, address);
+        const filesName = data.data// <- chuoi do day
+        setImages(data.data);
+        //cach them cai mang chuoi url image vaof taoj news
       })
       .catch((error) => {
         message.error({
@@ -172,7 +197,7 @@ function New_Topic() {
           duration: 2,
         });
       });
-  };
+  }, [formData]);
   return (
     <div>
       <h2 className="mt-5 pt-5">Share your news with us</h2>
@@ -367,9 +392,8 @@ function New_Topic() {
             type="text"
             className="form-control"
             placeholder="Nhập địa chỉ nhà"
-            value={`${address ? address + " ," : ""}${ward ? ward + " ," : ""}${
-              district ? district + " ," : ""
-            }${city}`}
+            value={`${address ? address + " ," : ""}${ward ? ward + " ," : ""}${district ? district + " ," : ""
+              }${city}`}
           />
         </div>
         <div className="form-groups sm-12">
